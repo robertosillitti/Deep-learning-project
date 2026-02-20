@@ -1,0 +1,1 @@
+In this project me and @AsiaGrillo implemented a multitask classification model for predicting both age and gender, and a regression model specifically designed to estimate age, using a modified version of ResNet18.
