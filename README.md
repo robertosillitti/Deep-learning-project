@@ -12,12 +12,14 @@ The goal of our project is to predict a person’s gender, ethnicity, and exact 
 
 ## Methodology and results
 
-First, we implemented a multitask model to jointly predict gender and ethnicity. To address the strong class imbalance in ethnicity, we applied *data augmentation*, more aggressive for minority classes, and used a *weighted random sampler*. We then trained the model with appropriate regularization techniques.
+First, we implemented a multitask model to jointly predict gender and ethnicity. To address the strong class imbalance in ethnicity, we applied **data augmentation**, more aggressive for minority classes, and used a **weighted random sampler**. We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing).
 
-We evaluated performance using confusion matrices and other relevant metrics, plotted the ROC curve for gender, and tested the model on both dataset images and external images. To better understand the model’s decision process, we implemented *Grad-CAM* and performed *cluster analysis* on misclassifications.
+We evaluated performance using confusion matrices and other relevant metrics, plotted the ROC curve for gender, and tested the model on both dataset images and external images. To better understand the model’s decision process, we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications.
 
 For age prediction, we built a regression model that reuses the classification backbone, leveraging the facial features already learned during multitask training.
-We adopted a two-stage pipeline: first, a *coarse classifier* assigned each face to one of six equally populated age bins (reaching about 58% accuracy), and then a *dedicated regressor* refined the prediction within the selected bin. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset. The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
+We adopted a two-stage pipeline: first, a **coarse classifier** assigned each face to one of six equally populated age bins (reaching about 58% accuracy), and then a **dedicated regressor** refined the prediction within the selected bin. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset. 
+
+The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
 Also the multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance.    
 
 In conclusion, this analysis achieved reasonably good results given the limitations of the dataset. However, using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
