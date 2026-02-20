@@ -23,3 +23,13 @@ The final regression model achieved a global MAE of roughly 3–4 years, which i
 Also the multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance.    
 
 In conclusion, this analysis achieved reasonably good results given the limitations of the dataset. However, using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
+
+## Repository structure
+
+In this repository you will find:
+
+- A Jupyter notebook with all the code needed to preprocess the data, define, train, and evaluate the models, and generate plots. It also includes comments and interpretations of the results.
+
+- A PDF presentation summarizing the project, with key visualizations, plots, and a detailed discussion of the main findings.
+
+- A README file providing an overview of the project structure, goals, and methodology.
