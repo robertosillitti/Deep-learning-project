@@ -34,9 +34,7 @@ First, we implemented a multitask model to jointly predict gender and ethnicity,
 - For the classification task we evaluated performance using confusion matrices and other relevant metrics (accuracy, weighted F1, precision, recall, balanced accuracy, NIR, ROC curve for gender);
 - For both tasks we tested the model on both dataset images and external images;
 - To better understand the model’s decision process (in the classification task), we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications;
-  
-- The multitask classifier achieved solid accuracy and F1 on both gender and ethnicity, performing reliably even in the presence of several dataset limitations (low-resolution grayscale 48×48 images, poor contrast, class imbalance);
-- The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
+- The multitask classifier achieved solid accuracy and F1 on both gender and ethnicity, while the final regression model achieved a global MAE of roughly 3–4 years, performing reliably even in the presence of several dataset limitations (low-resolution grayscale 48×48 images, poor contrast, class imbalance);
 - Using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
 
 ## Repository structure
