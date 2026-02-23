@@ -22,7 +22,7 @@ First, we implemented a multitask model to jointly predict gender and ethnicity,
 
 ### Model architecture and training
 
-- We designed a modified version of **ResNet18** adapted for 48x48 greyscale images, o simultaneously classify ethnicity and gender;
+- We designed a modified version of **ResNet18** adapted for 48x48 greyscale images to simultaneously classify ethnicity and gender;
 - We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing);
 - Optimization is performed using **AdamW optimizer** and we used **Kaiming (He) weights initialization**.
 - For the regression task we adopted a two-stage pipeline:
