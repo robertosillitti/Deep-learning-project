@@ -32,10 +32,10 @@ rich features (faces, structure, and so on) and then we fine tuned the entire ne
 
 ### Model evaluation and results
 
-- We evaluated performance using confusion matrices and other relevant metrics (weighted F1, precision, recall, balanced accuracy and NIR, ROC curve for gender) for the classification task;
-- We tested the model on both dataset images and external images for both tasks;
+- For the classification task we evaluated performance using confusion matrices and other relevant metrics (accuracy, weighted F1, precision, recall, balanced accuracy, NIR, ROC curve for gender);
+- For both tasks we tested the model on both dataset images and external images;
 - To better understand the model’s decision process (in the classification task), we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications;
-- The multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance;
+- The multitask classifier achieved solid accuracy and F1 on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance;
 - The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
 
 In conclusion, this analysis achieved reasonably good results given the limitations of the dataset. However, using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
@@ -46,6 +46,6 @@ In this repository you will find:
 
 - A Jupyter notebook with all the code needed to preprocess the data, define, train, and evaluate the models, and generate plots. It also includes comments and interpretations of the results.
 
-- A PDF presentation summarizing the project, with key visualizations, plots, and a detailed discussion of the main findings.
+- A PDF presentation summarizing the project, with key visualizations, plots, and a discussion of the main findings.
 
 - A README file providing an overview of the project structure, goals, and methodology.
