@@ -26,19 +26,17 @@ First, we implemented a multitask model to jointly predict gender and ethnicity,
 - We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing);
 - We used **Kaiming (He) weights initialization** and optimization is performed using **AdamW optimizer**;
 - For the regression task we adopted a two-stage pipeline:
-  - A **coarse classifier** to assign each face to one of six equally populated age bins (reaching about 58% accuracy). The model reuses the convolutional backbone of the multitask model trained earlier. The model benefits from the pretrained multitask network, which has already learned rich representations of faces and only the final classification head is new and trainable. So, we trained only final layers since the pretrained multitask backbone already learned
-rich features (faces, structure, and so on) and then we fine tuned the entire network: after the classifier head learns to use the backbone features, we unfreeze the entire model to extract features specifically to predict age;
-  - A **dedicated regressor** refined the prediction within the selected bin. Six independent regressors are trained, one for each coarse age bin. Each regressor adds a small fully connected head on top of the shared backbone (each regressor is trained only on images from its own bin) and only the regression heads are updated. Coarse classification learns global age features; bin-specific regressors refine age estimation locally. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset.
+  - A **coarse classifier** to assign each face to one of six equally populated age bins. The model reuses the convolutional backbone of the multitask model trained earlier, which has already learned rich representations of faces and only the final classification head is new and trainable, then we fine tuned the entire network;
+  - A **dedicated regressor** refined the prediction within the selected bin. Six independent regressors are trained, one for each coarse age bin. Each regressor adds a small fully connected head on top of the shared backbone and only the regression heads are updated. Coarse classification learns global age features; bin-specific regressors refine age estimation locally.
 
 ### Model evaluation and results
 
 - For the classification task we evaluated performance using confusion matrices and other relevant metrics (accuracy, weighted F1, precision, recall, balanced accuracy, NIR, ROC curve for gender);
 - For both tasks we tested the model on both dataset images and external images;
 - To better understand the model’s decision process (in the classification task), we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications;
-- The multitask classifier achieved solid accuracy and F1 on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance;
+- The multitask classifier achieved solid accuracy and F1 on both gender and ethnicity, performing reliably even in the presence of several dataset limitations (low-resolution grayscale 48×48 images, poor contrast, class imbalance);
 - The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
-
-In conclusion, this analysis achieved reasonably good results given the limitations of the dataset. However, using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
+- Using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
 
 ## Repository structure
 
