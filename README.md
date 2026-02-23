@@ -16,11 +16,11 @@ First, we implemented a multitask model to jointly predict gender and ethnicity.
 
 ### Data preprocessing
 
-- We removed duplicates using hasing and cosine similarity;
+- We removed duplicates using hashing and cosine similarity;
 - To address the strong class imbalance in ethnicity, we applied **data augmentation**, more aggressive for minority classes;
 - We also implemented a **weighted random sampler** that changes how batches are drawn.
 
-### Model architecture
+### Model architecture and training
 
 - We designed a modified version of **ResNet18** adapted for 48x48 greyscale images, o simultaneously classify ethnicity and gender;
 - We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing);
@@ -31,15 +31,13 @@ rich features (faces, structure, and so on) and then we fine tuned the entire ne
   - A **dedicated regressor** refined the prediction within the selected bin. Six independent regressors are trained, one for each coarse age bin. Each regressor adds a small fully connected head on top of the shared backbone (each regressor is trained only on images from its own bin).
 Only the regression heads are updated. Coarse classification learns global age features; bin-specific regressors refine age estimation locally. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset.
 
+### Model evaluation and results
 
-
-We evaluated performance using confusion matrices and other relevant metrics, plotted the ROC curve for gender, and tested the model on both dataset images and external images. To better understand the model’s decision process, we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications.
-
-
- 
-
-The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
-Also the multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance.    
+- We evaluated performance using confusion matrices and other relevant metrics (weighted F1, precision, recall, balanced accuracy and NIR, ROC curve for gender) for the classification task;
+- We tested the model on both dataset images and external images for both tasks;
+- To better understand the model’s decision process (in the classification task), we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications;
+- The multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance;
+- The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
 
 In conclusion, this analysis achieved reasonably good results given the limitations of the dataset. However, using higher-quality images (RGB, better resolution, less noise) and a more balanced distribution of samples across ethnicity and age would likely lead to significantly better performance.
 
