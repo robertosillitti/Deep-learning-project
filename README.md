@@ -24,7 +24,7 @@ First, we implemented a multitask model to jointly predict gender and ethnicity,
 
 - We designed a modified version of **ResNet18** adapted for 48x48 greyscale images to simultaneously classify ethnicity and gender;
 - We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing);
-- Optimization is performed using **AdamW optimizer** and we used **Kaiming (He) weights initialization**.
+- We used **Kaiming (He) weights initialization** and optimization is performed using **AdamW optimizer**;
 - For the regression task we adopted a two-stage pipeline:
   - A **coarse classifier** to assign each face to one of six equally populated age bins (reaching about 58% accuracy). The model reuses the convolutional backbone of the multitask model trained earlier. The model benefits from the pretrained multitask network, which has already learned rich representations of faces. Only the final classification head is new and trainable. So, we trained only final layers since the pretrained multitask backbone already learned
 rich features (faces, structure, and so on) and then we fine tuned the entire network: after the classifier head learns to use the backbone features, we unfreeze the entire model to extract features specifically to predict age.
