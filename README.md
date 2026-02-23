@@ -12,12 +12,31 @@ The goal of our project is to predict a person’s gender, ethnicity, and exact 
 
 ## Methodology and results
 
-First, we implemented a multitask model to jointly predict gender and ethnicity. To address the strong class imbalance in ethnicity, we applied **data augmentation**, more aggressive for minority classes, and used a **weighted random sampler**. We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing).
+First, we implemented a multitask model to jointly predict gender and ethnicity. For age prediction, we built a regression model that reuses the classification backbone, leveraging the facial features already learned during multitask training.
+
+### Data preprocessing
+
+- We removed duplicates using hasing and cosine similarity;
+- To address the strong class imbalance in ethnicity, we applied **data augmentation**, more aggressive for minority classes;
+- We also implemented a **weighted random sampler** that changes how batches are drawn.
+
+### Model architecture
+
+- We designed a modified version of **ResNet18** adapted for 48x48 greyscale images, o simultaneously classify ethnicity and gender;
+- We then trained the model with appropriate **regularization techniques** (early stopping, dropout, weight decay, label smoothing) and **optimization strategies** (warmup, cosine annealing);
+- Optimization is performed using **AdamW optimizer** and we used **Kaiming (He) weights initialization**.
+- For the regression task we adopted a two-stage pipeline:
+  - A **coarse classifier** to assign each face to one of six equally populated age bins (reaching about 58% accuracy). The model reuses the convolutional backbone of the multitask model trained earlier. The model benefits from the pretrained multitask network, which has already learned rich representations of faces. Only the final classification head is new and trainable. So, we trained only final layers since the pretrained multitask backbone already learned
+rich features (faces, structure, and so on) and then we fine tuned the entire network: after the classifier head learns to use the backbone features, we unfreeze the entire model to extract features specifically to predict age.
+  - A **dedicated regressor** refined the prediction within the selected bin. Six independent regressors are trained, one for each coarse age bin. Each regressor adds a small fully connected head on top of the shared backbone (each regressor is trained only on images from its own bin).
+Only the regression heads are updated. Coarse classification learns global age features; bin-specific regressors refine age estimation locally. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset.
+
+
 
 We evaluated performance using confusion matrices and other relevant metrics, plotted the ROC curve for gender, and tested the model on both dataset images and external images. To better understand the model’s decision process, we implemented **Grad-CAM** and performed **cluster analysis** on misclassifications.
 
-For age prediction, we built a regression model that reuses the classification backbone, leveraging the facial features already learned during multitask training.
-We adopted a two-stage pipeline: first, a **coarse classifier** assigned each face to one of six equally populated age bins (reaching about 58% accuracy), and then a **dedicated regressor** refined the prediction within the selected bin. This strategy proved particularly effective for dealing with the highly skewed age distribution of the dataset. 
+
+ 
 
 The final regression model achieved a global MAE of roughly 3–4 years, which is competitive considering the quality of the images and the limited sample diversity.
 Also the multitask classifier achieved solid accuracy on both gender and ethnicity, performing reliably even in the presence of several dataset limitations such as low-resolution grayscale format 48×48 pixels, poor contrast, and substantial class imbalance.    
