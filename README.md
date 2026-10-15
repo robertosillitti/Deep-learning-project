@@ -1,4 +1,4 @@
-# Multitask facial analysis: gender/ethnicty classification and age regression using neural networks
+# Multitask facial analysis: gender/ethnicity classification and age regression using neural networks
 
 In this project me and @AsiaGrillo implemented (with **PyTorch**) a multitask classification model for predicting both age and gender, and a regression model specifically designed to estimate age.
 
